@@ -39,13 +39,13 @@ pipeline {
                 dir( 'worker' ) {
                     sh 'mvn package -DskipTests'
                 }
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
             }
         }
     }
 
     post {
         always {
-            archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true 
             echo 'Building multibranch pipeline for worker is completed..'
         }
     }
