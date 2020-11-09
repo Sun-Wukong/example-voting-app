@@ -23,7 +23,8 @@ pipeline {
         }
         stage( 'three' ) {
             steps {
-            echo 'Packaging worker app'
+                echo 'Packaging worker app'
+            }
         }
     }
 
