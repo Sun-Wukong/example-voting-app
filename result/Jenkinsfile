@@ -9,7 +9,9 @@ pipeline {
             steps {
                 echo "Build result app"
                 dir( "result" ) {
-                    sh "npm install"
+                    nodejs( nodeJSInstallationName: "node-8_9_0" ) {
+                        sh "npm install"
+                    }
                 }
             }
         }
@@ -20,15 +22,17 @@ pipeline {
             steps {
                 echo "Test result app"
                 dir( "result" ) {
-                    sh "npm install"
-                    sh "npm test"
+                    nodejs( nodeJSInstallationName: "node-8_9_0" ) {
+                        sh "npm install"
+                        sh "npm test"
+                    }
                 }
             }
         }
     }
     post {
         always {
-            echo "Building multibranch pipeline for worker is completed.."
+            echo "Building multibranch pipeline for result is completed.."
         }
     }
 }
