@@ -1,27 +1,22 @@
 pipeline {
-    agent any
-
-    tools {
-        maven 'maven 3.6.1'
+    agent {
+        docker {
+            image "maven:3.6.2-jdk-8-slim"
+            args "-v $HOME/.m2:/root/.m2"
+        }
     }
 
     stages {
-        stage( 'one' ) {
-            when {
-                changeset "**/worker/**"
-            }
+        stage( 'build' ) {
             steps {
                 
-                echo 'Compiling worker app'
+                echo 'Building worker app'
                 dir( 'worker' ) {
                     sh 'mvn compile'
                 }        
             }
         }
-        stage( 'two' ) {
-            when {
-                changeset "**/worker/**"
-            }
+        stage( 'test' ) {
             steps {
                 echo 'Running Unit Test on worker app'
                 dir( 'worker' ) {
@@ -29,11 +24,7 @@ pipeline {
                 }
             }
         }
-        stage( 'three' ) {
-            when {
-                branch "master"
-                changeset "**/worker/**"
-            }
+        stage( 'package' ) {
             steps {
                 echo 'Packaging worker app'
                 dir( 'worker' ) {
@@ -46,7 +37,7 @@ pipeline {
 
     post {
         always {
-            echo 'Building multibranch pipeline for worker is completed..'
+            echo 'the job is completed'
         }
     }
 }
