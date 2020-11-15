@@ -1,0 +1,24 @@
+pipeline {
+    agent any
+
+    stages {
+        stage( "integration tests" ) {
+            steps {
+                dir( "vote" ) {
+                    sh "./integration_test.sh"
+                }
+            }
+        }
+    }
+    post {
+        always {
+            echo "the job is completed.."
+        }
+        failure {
+            echo "Build result: FAIL"
+        }
+        success {
+            echo "Build result: SUCCESS"
+        }
+    }
+}
