@@ -1,32 +1,32 @@
 pipeline {
-    agent any
-
+    agent none
     stages {
         stage( "build" ) {
+            agent {
+                dockerfile {
+                    filename "Dockerfile"
+                    dir "result"
+                }
+            }
             when {
                 changeset "**/result/**"
             }
             steps {
                 echo "Build result app"
-                dir( "result" ) {
-                    nodejs( nodeJSInstallationName: "node-8_9_0" ) {
-                        sh "npm install"
-                    }
-                }
             }
         }
         stage( "test" ) {
+            agent {
+                dockerfile {
+                    filename "test.dockerfile"
+                    dir "result"
+                }
+            }
             when {
                 changeset "**/result/**"
             }
             steps {
                 echo "Test result app"
-                dir( "result" ) {
-                    nodejs( nodeJSInstallationName: "node-8_9_0" ) {
-                        sh "npm install"
-                        sh "npm test"
-                    }
-                }
             }
         }
     }
