@@ -7,4 +7,4 @@ RUN mvn package && \
     rm -rf /app
 
 EXPOSE 8080
-CMD [ "java", "-jar /run/worker.jar" ]
+CMD [ "java", "-jar", "/run/worker.jar" ]
